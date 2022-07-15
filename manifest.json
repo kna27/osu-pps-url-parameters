@@ -1,0 +1,16 @@
+{
+    "manifest_version": 2,
+    "name": "osu-pps URL Parameters",
+    "version": "1.0",
+    "description": "Adds parameters to the URL of osu-pps.com based on selected filters",
+    "content_scripts": [
+      {
+        "matches": [
+          "https://osu-pps.com/#/osu/maps"
+        ],
+        "js": [
+          "main.js"
+        ]
+      }
+    ]
+  }
