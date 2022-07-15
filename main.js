@@ -1,19 +1,3 @@
-const FORM_INPUTS = {
-    "text": 0,
-    "ppmin": 1,
-    "ppmax": 2,
-    "dt": 3,
-    "hd": 4,
-    "hr": 5,
-    "fl": 6,
-    "lenmmin": 7,
-    "lenmmax": 8,
-    "bpmmin": 9,
-    "bpmmax": 10,
-    "diffmin": 11,
-    "diffmax": 12,
-}
-
 window.onload = function () {
     if (document.getElementsByClassName("form-control").length > 0) {
         document.getElementsByClassName("apply")[0].onclick = function () { addUrlParams(); };
@@ -45,17 +29,31 @@ function applyParams() {
             params[pair[0]] = pair[1];
         }
     }
-    Object.keys(params).forEach(function(key) {
+    let changed = false;
+    Object.keys(params).forEach(function (key) {
         value = params[key];
-        if (key == "genre" || key =="language" || key == "rankeddate")
-        {
-            
+        key = "osupps_1.3_key_" + key + "_mode_osu";
+        if (readCookie(key) != value) {
+            document.cookie = key + "=" + value + "; path=/;";
+            changed = true;
         }
-        else if (key == "lenmmin" || key == "lenmmax" || key == "lensmin" || key == "lensmax") {
+    });
+    if (changed) {
+        window.location.reload();
+    }
+}
 
+function readCookie(name) {
+    name += "=";
+    var ca = document.cookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1, c.length);
         }
-        else {
-            document.getElementsByClassName("form-control")[FORM_INPUTS[key]].value = value;
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
         }
-     });
+    }
+    return null;
 }
